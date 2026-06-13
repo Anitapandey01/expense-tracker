@@ -4,7 +4,7 @@
     "amount": 2000,
     "category": "Food",
     "date": "2025-10-17",
-    "note": "party"
+    "note": "party with friends"
   },
   {
     "id": 1781323231851,
@@ -26,5 +26,12 @@
     "category": "Entertainment",
     "date": "2026-03-27",
     "note": "movie night"
+  },
+  {
+    "id": 1781345155345,
+    "amount": 1000,
+    "category": "Other",
+    "date": "2026-03-15",
+    "note": "Puja and all at home"
   }
 ]

@@ -5,18 +5,12 @@ const path = require("path");
 
 const app = express();
 
-// CORS FIX
-app.use(
-  cors({
-    origin:
-      "https://expense-tracker-theta-gilt-98.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
+// CORS
+app.use(cors());
 
 app.use(express.json());
 
+// File Path
 const FILE_PATH = path.join(
   __dirname,
   "data",
@@ -102,8 +96,12 @@ app.put("/expenses/:id", (req, res) => {
   try {
     const expenseId = Number(req.params.id);
 
-    const { amount, category, date, note } =
-      req.body;
+    const {
+      amount,
+      category,
+      date,
+      note,
+    } = req.body;
 
     const expenses = JSON.parse(
       fs.readFileSync(FILE_PATH, "utf8")
@@ -131,7 +129,8 @@ app.put("/expenses/:id", (req, res) => {
     );
 
     res.json({
-      message: "Expense Updated Successfully",
+      message:
+        "Expense Updated Successfully",
     });
   } catch (error) {
     console.error(error);
@@ -153,7 +152,8 @@ app.delete("/expenses/:id", (req, res) => {
     );
 
     const updatedExpenses = expenses.filter(
-      (expense) => expense.id !== expenseId
+      (expense) =>
+        expense.id !== expenseId
     );
 
     fs.writeFileSync(
@@ -162,7 +162,8 @@ app.delete("/expenses/:id", (req, res) => {
     );
 
     res.json({
-      message: "Expense Deleted Successfully",
+      message:
+        "Expense Deleted Successfully",
     });
   } catch (error) {
     console.error(error);
@@ -199,15 +200,20 @@ app.get("/summary", (req, res) => {
     const categoryTotals = {};
 
     expenses.forEach((expense) => {
-      categoryTotals[expense.category] =
-        (categoryTotals[expense.category] || 0) +
+      categoryTotals[
+        expense.category
+      ] =
+        (categoryTotals[
+          expense.category
+        ] || 0) +
         Number(expense.amount);
     });
 
     res.json({
       totalSpent,
       highestExpense,
-      totalExpenses: expenses.length,
+      totalExpenses:
+        expenses.length,
       categoryTotals,
     });
   } catch (error) {
@@ -221,10 +227,12 @@ app.get("/summary", (req, res) => {
 });
 
 // Start Server
-const PORT = process.env.PORT || 8000;
+const PORT =
+  process.env.PORT || 8000;
 
 app.listen(PORT, () => {
   console.log(
     `Server running on port ${PORT}`
   );
 });
+

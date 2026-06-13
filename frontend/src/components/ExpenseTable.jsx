@@ -25,8 +25,9 @@ function ExpenseTable({
     return (
       <div>
         <h2 className="table-title">
-  📋 All Expenses
-</h2>
+          📋 All Expenses
+        </h2>
+
         <h3>No expenses found.</h3>
       </div>
     );
@@ -34,9 +35,9 @@ function ExpenseTable({
 
   return (
     <div>
-     <h2 className="table-title">
-  📋 All Expenses
-</h2>
+      <h2 className="table-title">
+        📋 All Expenses
+      </h2>
 
       <table border="1" cellPadding="10">
         <thead>
@@ -58,21 +59,23 @@ function ExpenseTable({
               <td>{expense.note}</td>
 
               <td>
-                <button
-                  onClick={() =>
-                    setEditingExpense(expense)
-                  }
-                >
-                  Edit
-                </button>
+                <div className="action-buttons">
+                  <button
+                    onClick={() =>
+                      setEditingExpense(expense)
+                    }
+                  >
+                    Edit
+                  </button>
 
-                <button
-                  onClick={() =>
-                    handleDelete(expense.id)
-                  }
-                >
-                  Delete
-                </button>
+                  <button
+                    onClick={() =>
+                      handleDelete(expense.id)
+                    }
+                  >
+                    Delete
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
