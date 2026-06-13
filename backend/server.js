@@ -1,13 +1,32 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+const path = require("path");
 
 const app = express();
 
-app.use(cors());
+// CORS FIX
+app.use(
+  cors({
+    origin:
+      "https://expense-tracker-theta-gilt-98.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
-const FILE_PATH = "./data/expenses.json";
+const FILE_PATH = path.join(
+  __dirname,
+  "data",
+  "expenses.json"
+);
+
+// Create expenses.json if missing
+if (!fs.existsSync(FILE_PATH)) {
+  fs.writeFileSync(FILE_PATH, "[]");
+}
 
 // Home Route
 app.get("/", (req, res) => {
@@ -23,10 +42,11 @@ app.get("/expenses", (req, res) => {
 
     res.json(expenses);
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     res.status(500).json({
       message: "Server Error",
+      error: error.message,
     });
   }
 });
@@ -34,7 +54,8 @@ app.get("/expenses", (req, res) => {
 // Add Expense
 app.post("/expenses", (req, res) => {
   try {
-    const { amount, category, date, note } = req.body;
+    const { amount, category, date, note } =
+      req.body;
 
     if (!amount || !category || !date) {
       return res.status(400).json({
@@ -67,10 +88,11 @@ app.post("/expenses", (req, res) => {
       expense: newExpense,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     res.status(500).json({
       message: "Server Error",
+      error: error.message,
     });
   }
 });
@@ -112,10 +134,11 @@ app.put("/expenses/:id", (req, res) => {
       message: "Expense Updated Successfully",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     res.status(500).json({
       message: "Server Error",
+      error: error.message,
     });
   }
 });
@@ -142,10 +165,11 @@ app.delete("/expenses/:id", (req, res) => {
       message: "Expense Deleted Successfully",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     res.status(500).json({
       message: "Server Error",
+      error: error.message,
     });
   }
 });
@@ -175,13 +199,9 @@ app.get("/summary", (req, res) => {
     const categoryTotals = {};
 
     expenses.forEach((expense) => {
-      if (categoryTotals[expense.category]) {
-        categoryTotals[expense.category] +=
-          Number(expense.amount);
-      } else {
-        categoryTotals[expense.category] =
-          Number(expense.amount);
-      }
+      categoryTotals[expense.category] =
+        (categoryTotals[expense.category] || 0) +
+        Number(expense.amount);
     });
 
     res.json({
@@ -191,15 +211,16 @@ app.get("/summary", (req, res) => {
       categoryTotals,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     res.status(500).json({
       message: "Server Error",
+      error: error.message,
     });
   }
 });
 
-// Render Compatible Server Start
+// Start Server
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
