@@ -329,7 +329,7 @@ Through this project, I gained practical experience in:
 
 B.Tech – Computer Science & Engineering
 
-Passionate about Full Stack Development, Data Analytics, AI Applications, and Building Real-World Software Solutions.
+Passionate about Full Stack Development, AI Applications, and Building Real-World Software Solutions.
 
 ---
 
