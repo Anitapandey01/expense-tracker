@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1781290966876,
+    "amount": 2000,
+    "category": "Food",
+    "date": "2025-10-17",
+    "note": "party"
+  },
+  {
+    "id": 1781323231851,
+    "amount": 800,
+    "category": "Transport",
+    "date": "2025-08-30",
+    "note": "way to home"
+  },
+  {
+    "id": 1781324105995,
+    "amount": 300,
+    "category": "Bills",
+    "date": "2026-02-20",
+    "note": "water"
+  },
+  {
+    "id": 1781324161371,
+    "amount": 1500,
+    "category": "Entertainment",
+    "date": "2026-03-27",
+    "note": "movie night"
+  }
+]
