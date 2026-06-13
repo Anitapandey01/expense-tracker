@@ -1,65 +1,74 @@
 import { useState } from "react";
 
 function BudgetTracker({ expenses }) {
-const [budget, setBudget] = useState(10000);
+  const [budget, setBudget] = useState("");
 
-const totalSpent = expenses.reduce(
-(sum, expense) =>
-sum + Number(expense.amount),
-0
-);
+  const budgetAmount = Number(budget) || 0;
 
-const percentage =
-budget > 0
-? (totalSpent / budget) * 100
-: 0;
+  const totalSpent = expenses.reduce(
+    (sum, expense) =>
+      sum + Number(expense.amount),
+    0
+  );
 
-const exceeded =
-totalSpent > budget;
+  const remaining =
+    budgetAmount - totalSpent;
 
-return ( <div className="budget-card"> <h2>💰 Monthly Budget</h2>
-
-
-  <input
-    type="number"
-    value={budget}
-    onChange={(e) =>
-      setBudget(
-        Number(e.target.value)
-      )
-    }
-    placeholder="Enter Budget"
-  />
-
-  <h3>Budget: ₹{budget}</h3>
-
-  <h3>Spent: ₹{totalSpent}</h3>
-
-  <div className="progress-bar">
-    <div
-      className={
-        exceeded
-          ? "progress danger"
-          : "progress"
-      }
-      style={{
-        width: `${Math.min(
-          percentage,
+  const percentage =
+    budgetAmount > 0
+      ? Math.min(
+          (totalSpent / budgetAmount) *
+            100,
           100
-        )}%`,
-      }}
-    />
-  </div>
+        )
+      : 0;
 
-  {exceeded && (
-    <p className="warning">
-      ⚠ Budget Exceeded!
-    </p>
-  )}
-</div>
+  return (
+    <div className="budget-card">
+      <h2>💰 Monthly Budget</h2>
 
+      <input
+        type="number"
+        placeholder="e.g. 5000"
+        value={budget}
+        onChange={(e) =>
+          setBudget(e.target.value)
+        }
+        className="budget-input"
+      />
 
-);
+      <div className="budget-details">
+        <h3>
+          Budget: ₹{budgetAmount}
+        </h3>
+
+        <h3>
+          Spent: ₹{totalSpent}
+        </h3>
+
+        <h3>
+          Remaining: ₹{remaining}
+        </h3>
+      </div>
+
+      <div className="progress-bar">
+        <div
+          className="progress-fill"
+          style={{
+            width: `${percentage}%`,
+          }}
+        ></div>
+      </div>
+
+      {budgetAmount > 0 &&
+        totalSpent > budgetAmount && (
+          <p className="warning">
+            ⚠️ Budget Exceeded by ₹
+            {totalSpent - budgetAmount}
+          </p>
+        )}
+    </div>
+  );
 }
 
 export default BudgetTracker;
