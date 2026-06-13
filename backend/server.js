@@ -38,7 +38,8 @@ app.post("/expenses", (req, res) => {
 
     if (!amount || !category || !date) {
       return res.status(400).json({
-        message: "Amount, Category and Date are required",
+        message:
+          "Amount, Category and Date are required",
       });
     }
 
@@ -79,25 +80,28 @@ app.put("/expenses/:id", (req, res) => {
   try {
     const expenseId = Number(req.params.id);
 
-    const { amount, category, date, note } = req.body;
+    const { amount, category, date, note } =
+      req.body;
 
     const expenses = JSON.parse(
       fs.readFileSync(FILE_PATH, "utf8")
     );
 
-    const updatedExpenses = expenses.map((expense) => {
-      if (expense.id === expenseId) {
-        return {
-          ...expense,
-          amount: Number(amount),
-          category,
-          date,
-          note,
-        };
-      }
+    const updatedExpenses = expenses.map(
+      (expense) => {
+        if (expense.id === expenseId) {
+          return {
+            ...expense,
+            amount: Number(amount),
+            category,
+            date,
+            note,
+          };
+        }
 
-      return expense;
-    });
+        return expense;
+      }
+    );
 
     fs.writeFileSync(
       FILE_PATH,
@@ -172,13 +176,11 @@ app.get("/summary", (req, res) => {
 
     expenses.forEach((expense) => {
       if (categoryTotals[expense.category]) {
-        categoryTotals[expense.category] += Number(
-          expense.amount
-        );
+        categoryTotals[expense.category] +=
+          Number(expense.amount);
       } else {
-        categoryTotals[expense.category] = Number(
-          expense.amount
-        );
+        categoryTotals[expense.category] =
+          Number(expense.amount);
       }
     });
 
@@ -197,7 +199,11 @@ app.get("/summary", (req, res) => {
   }
 });
 
-// Start Server
-app.listen(8000, () => {
-  console.log("Server running on port 8000");
+// Render Compatible Server Start
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => {
+  console.log(
+    `Server running on port ${PORT}`
+  );
 });
